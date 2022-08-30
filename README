@@ -14,7 +14,7 @@ Train pg module:
 python pg_train.py --datapath dataset.jsonl --pretrain_model facebook/bart-large --batch_size 32 --save_path pg_save --learning_rate 1e-5 --save_model --num_of_knows 60
 
 Train sr module:
-python sr_train.py --datapath dataset.jsonl --pretrain_model gpt2 --batch_size 32 --save_path sr_save --learning_rate 1e-5 --save_model
+python sr_train.py --datapath dataset.jsonl --pretrain_model gpt2 --batch_size 32 --save_path sr_save --learning_rate 2e-5 --save_model
 
 #Generation:
 Generate plot:
