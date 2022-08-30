@@ -1,5 +1,5 @@
 # input an event and a sequence of knowledge pieces, output is the schema
-# time cost!!
+# caution!! much time cost!!
 
 from sentence_transformers import SentenceTransformer, util
 
@@ -15,11 +15,12 @@ def remove_repetition(knows, model):
     return temp
 
 
-def schema(event, knows):# event-->str, knows-->list [str, str....]
+def schema(event, knows):# event：str, knows：list [str, str....]
     model = SentenceTransformer('all-MiniLM-L6-v2')
 
     filtered_knows = []
-    while len(knows) > 1: # remove high slight different knowledges
+    while len(knows) > 1: 
+        # remove high slight different knowledges
         knows = remove_repetition(knows, model)
         filtered_knows.append(knows[0])
         knows = knows[1:]
@@ -32,7 +33,8 @@ def schema(event, knows):# event-->str, knows-->list [str, str....]
     embeddings1 = model.encode(s1, convert_to_tensor=True)
     embeddings2 = model.encode(filtered_knows, convert_to_tensor=True)
     cosine_scores = util.cos_sim(embeddings1, embeddings2)
-
+    
+    pair = []
     for m in range(len(s1)):
         pair.append({'index': [m], 'score': cosine_scores[m][m]})
         pair = sorted(pair, key=lambda x: x['score'], reverse=True)
@@ -40,5 +42,11 @@ def schema(event, knows):# event-->str, knows-->list [str, str....]
         for p in pair:
             schema_list.append(filtered_knows[p['index'][0]])
 
-    return schema_list # list [str,str....]
+    return schema_list # list:[str,str....]
+
+if __name__ == '__main__':
+    event = "go to shower"
+    knows = ["lie on the bed", "clean my body", "go in bathroom"]
+    s = schema(event, knows) #['go in bathroom', 'clean my body', 'lie on the bed']
+    print(s)
 
