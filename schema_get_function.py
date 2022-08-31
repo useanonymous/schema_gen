@@ -1,5 +1,4 @@
 # input an event and a sequence of knowledge pieces, output is the schema
-# caution!! much time cost!!
 
 from sentence_transformers import SentenceTransformer, util
 
