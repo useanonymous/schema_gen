@@ -110,8 +110,7 @@ def forward_step(model, tokenizer, batch_data):
     loss = F.cross_entropy(
         outputs["logits"].view(-1, outputs["logits"].size(-1)),
         labels.view(-1),
-        ignore_index= tokenizer.pad_token_id,
-        reduction="mean"
+        ignore_index= tokenizer.pad_token_id
         )
     with torch.no_grad():
         ppl = loss.exp()
